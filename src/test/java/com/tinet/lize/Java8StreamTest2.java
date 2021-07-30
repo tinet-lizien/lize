@@ -205,6 +205,7 @@ public class Java8StreamTest2 {
     public static void start(myRun2 run2){
         new Thread(run2).start();
     }
+
     @FunctionalInterface
     public interface myRun2 extends Runnable{
         public default void run2(){}

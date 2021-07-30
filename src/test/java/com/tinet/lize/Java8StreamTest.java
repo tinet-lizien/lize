@@ -2,10 +2,7 @@ package com.tinet.lize;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +47,5 @@ public class Java8StreamTest {
         System.out.println("所有数之和 : " + stats.getSum());
         System.out.println("平均数 : " + stats.getAverage());
     }
-
 
 }
