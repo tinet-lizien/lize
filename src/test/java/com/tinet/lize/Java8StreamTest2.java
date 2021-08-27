@@ -71,10 +71,8 @@ public class Java8StreamTest2 {
         list1.add(new Student(2,"22"));
         list1.add(new Student(3,"33"));
         Stream<Student> stream = list1.stream();
-        Map<Integer, String> collect1 = stream.collect(Collectors.toMap(Student::getAge, Student::getName));
-        Map<Integer, String> collect2 = stream.collect(Collectors.toMap(s -> s.getAge(), s -> s.getName()));
-        System.out.println(collect1);
-        System.out.println(collect2);
+        Map<Integer, String> collect = stream.collect(Collectors.toMap(Student::getAge, Student::getName));
+        System.out.println(collect);
     }
 
     @Test
