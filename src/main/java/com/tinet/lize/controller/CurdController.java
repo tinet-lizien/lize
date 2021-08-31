@@ -1,7 +1,9 @@
 package com.tinet.lize.controller;
 
+import com.tinet.lize.data.ResponseModel;
 import com.tinet.lize.vo.LimitOffset;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,31 +17,30 @@ import javax.validation.Valid;
 public class CurdController {
 
     @GetMapping("/get")
-    public String get(@RequestParam(required = false) String name, @Valid LimitOffset limitOffset){
+    public ResponseModel get(@RequestParam(required = false) String name, @Valid LimitOffset limitOffset){
         log.info("name:{},limit:{},offset:{}",name,limitOffset.getLimit(),limitOffset.getOffset());
-        return "get";
+        return new ResponseModel(HttpStatus.OK,"get");
     }
 
     @PostMapping("/post")
-    public String save(@RequestBody LimitOffset limitOffset){
-
+    public ResponseModel save(@RequestBody LimitOffset limitOffset){
         log.info("limit:{},offset:{}",limitOffset.getLimit(),limitOffset.getOffset());
-        return "post";
+        return new ResponseModel(HttpStatus.OK,"post");
     }
 
     @PutMapping("/put/{id}")
-    public String update(@RequestBody LimitOffset limitOffset,@PathVariable Integer id){
+    public ResponseModel update(@RequestBody LimitOffset limitOffset,@PathVariable Integer id){
 
         log.info("limit:{},offset:{},id:{}",limitOffset.getLimit(),limitOffset.getOffset(),id);
-        return "update";
+        return new ResponseModel(HttpStatus.OK,"put");
     }
 
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id){
+    public ResponseModel delete(@PathVariable Integer id){
 
         log.info("id:{}",id);
-        return "delete";
+        return new ResponseModel(HttpStatus.OK,"delete");
     }
 
 
