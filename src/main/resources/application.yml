@@ -1,2 +1,7 @@
 server:
   port: 8083
+
+thread-pool:
+  psd:
+    core-size: 2
+    max-size: 4
