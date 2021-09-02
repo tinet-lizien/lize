@@ -2,6 +2,7 @@ package com.tinet.lize;
 
 import org.junit.Test;
 
+import javax.sound.midi.Soundbank;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,23 @@ public class Java8StreamTest {
     public void f1(){
         List<String> list = Arrays.asList("jack", "tom", "aihua");
         list.stream().filter(line -> !"tom".equals(line)).collect(Collectors.toList()).forEach(System.out::println);
+
+        String[] arr = new String[]{"jack", "tom", "aihua"};
+        List<String> list2 = Arrays.asList(arr);
+        if(list2.contains("jack")){
+            System.out.println(true);
+        }
+        list2.stream().filter(a -> !"bb".equals(a)).collect(Collectors.toList()).forEach(System.out::println);
+
+        List<Student> students = list2.stream().map(ss -> {
+            Student student = new Student();
+            student.setName(ss);
+            return student;
+        }).collect(Collectors.toList());
+        System.out.println(students);
+
+        Map<String, String> map = list2.stream().collect(Collectors.toMap(s -> s, s -> s + s));
+        System.out.println(map);
     }
 
     @Test
