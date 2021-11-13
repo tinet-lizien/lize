@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import javax.sound.midi.Soundbank;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -64,6 +66,32 @@ public class Java8StreamTest {
         System.out.println("列表中最小的数 : " + stats.getMin());
         System.out.println("所有数之和 : " + stats.getSum());
         System.out.println("平均数 : " + stats.getAverage());
+    }
+    @Test
+    public void f6() {
+
+        String s = "{YYYY}{MM}{DD}{0000}";
+
+//因为默认为贪婪模式,所以如果没有使用显示()组中的元素不能为大括号([^}]*),而是使用(.*),
+
+//那么会匹配的字符串为:one}{two}{three
+
+        Pattern p = Pattern.compile("\\{([^}]*)\\}");
+
+
+        Matcher m = p.matcher(s);
+
+        while (m.find()) {
+            System.out.println(m.group(1));//第一次匹配成功是one,第二次匹配成功是two,第三次匹配为three
+
+        }
+
+
+
+    }
+
+    public boolean codeVerification(String code){
+            return true;
     }
 
 }
