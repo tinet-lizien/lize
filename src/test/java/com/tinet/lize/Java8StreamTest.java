@@ -67,17 +67,13 @@ public class Java8StreamTest {
         System.out.println("所有数之和 : " + stats.getSum());
         System.out.println("平均数 : " + stats.getAverage());
     }
+
     @Test
     public void f6() {
 
         String s = "{YYYY}{MM}{DD}{0000}";
 
-//因为默认为贪婪模式,所以如果没有使用显示()组中的元素不能为大括号([^}]*),而是使用(.*),
-
-//那么会匹配的字符串为:one}{two}{three
-
         Pattern p = Pattern.compile("\\{([^}]*)\\}");
-
 
         Matcher m = p.matcher(s);
 
@@ -86,12 +82,99 @@ public class Java8StreamTest {
 
         }
 
+    }
 
+
+    @Test
+    public void f7() {
+        int id = 123;
+        String s = "{YYYY}{MM}{DD}{00000}";
+        Pattern p = Pattern.compile("\\{(0{1,10})\\}");
+        Matcher m = p.matcher(s);
+        while (m.find()) {
+            System.out.println(m.group(1));
+            String str = String.format("%0"+m.group(1).length()+"d", id);
+            System.out.println(str);
+            s = s.replace("{"+m.group(1)+"}",str);
+        }
+        System.out.println(s);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int date = calendar.get(Calendar.DATE);
+        s = s.replaceAll("\\{YYYY\\}",String.valueOf(year));
+        s = s.replaceAll("\\{MM\\}",String.valueOf(month));
+        s = s.replaceAll("\\{DD\\}",String.valueOf(date));
+        System.out.println(s);
+    }
+    @Test
+    public void f8() {
+
+        String regex = "^[a-zA-Z0-9]+$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher match = pattern.matcher("612356032232223");
+        System.out.println(match.matches());;
 
     }
 
-    public boolean codeVerification(String code){
-            return true;
+    public boolean validateRule (String ruleStr){
+        //1.校验里面是否含有{000}
+        Pattern p = Pattern.compile("\\{(0{1,10})\\}");
+        Matcher m = p.matcher(ruleStr);
+        if(!m.find()){
+            System.out.println("不含有{000}格式");
+            return false;
+        }
+        //2.校验不含有其他字符
+        String ss = m.replaceAll("")
+                .replaceAll("\\{YYYY\\}", "")
+                .replaceAll("\\{MM\\}", "")
+                .replaceAll("\\{DD\\}", "")
+                .replaceAll("-", "")
+                .replaceAll("_", "");
+        System.out.println(ss);
+
+        String regex = "[a-zA-Z0-9]+";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher match = pattern.matcher(ss);
+        if(!match.matches()){
+            System.out.println("含有不该含有的字符");
+            return false;
+        }
+        return true;
+    }
+
+    public String convertToCustomId (String ruleStr,int id){
+        //String s = "{YYYY}{MM}{DD}{00000}";
+        Pattern p = Pattern.compile("\\{(0{1,10})\\}");
+        Matcher m = p.matcher(ruleStr);
+        while (m.find()) {
+            System.out.println(m.group(1));
+            String str = String.format("%0"+m.group(1).length()+"d", id);
+            System.out.println(str);
+            ruleStr = ruleStr.replace("{"+m.group(1)+"}",str);
+        }
+        System.out.println(ruleStr);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int date = calendar.get(Calendar.DATE);
+        ruleStr = ruleStr.replaceAll("\\{YYYY\\}",String.valueOf(year));
+        ruleStr = ruleStr.replaceAll("\\{MM\\}",String.valueOf(month));
+        ruleStr = ruleStr.replaceAll("\\{DD\\}",String.valueOf(date));
+        System.out.println(ruleStr);
+        return "";
+    }
+
+    @Test
+    public void f9(){
+
+        String ruleStr = "SL{0000000}-&{YYYY}{MM}{DD}";
+        if(validateRule(ruleStr)){
+            System.out.println(convertToCustomId(ruleStr,1234));
+        }
     }
 
 }
