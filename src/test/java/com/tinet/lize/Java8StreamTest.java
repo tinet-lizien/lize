@@ -1,5 +1,6 @@
 package com.tinet.lize;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import javax.sound.midi.Soundbank;
@@ -118,60 +119,58 @@ public class Java8StreamTest {
 
     }
 
-    public boolean validateRule (String ruleStr){
-        //1.校验里面是否含有{000}
-        Pattern p = Pattern.compile("\\{(0{1,10})\\}");
-        Matcher m = p.matcher(ruleStr);
-        if(!m.find()){
-            System.out.println("不含有{000}格式");
+    public boolean validateRule (String rule){
+        //1.限制规则位数为35位
+        if (rule.length() > 35){
             return false;
         }
-        //2.校验不含有其他字符
-        String ss = m.replaceAll("")
+        //2.校验里面是否含有{1-10位数字0}
+        Pattern p = Pattern.compile("\\{(0{1,10})\\}");
+        Matcher m = p.matcher(rule);
+        if(!m.find()){
+            return false;
+        }
+        //3.校验不含a-zA-Z0-9,_和-的其他字符
+        String str = m.replaceAll("")
                 .replaceAll("\\{YYYY\\}", "")
                 .replaceAll("\\{MM\\}", "")
                 .replaceAll("\\{DD\\}", "")
                 .replaceAll("-", "")
                 .replaceAll("_", "");
-        System.out.println(ss);
 
-        String regex = "[a-zA-Z0-9]+";
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher match = pattern.matcher(ss);
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
+        Matcher match = pattern.matcher(str);
         if(!match.matches()){
-            System.out.println("含有不该含有的字符");
             return false;
         }
         return true;
     }
 
-    public String convertToCustomId (String ruleStr,int id){
-        //String s = "{YYYY}{MM}{DD}{00000}";
-        Pattern p = Pattern.compile("\\{(0{1,10})\\}");
-        Matcher m = p.matcher(ruleStr);
-        while (m.find()) {
-            System.out.println(m.group(1));
-            String str = String.format("%0"+m.group(1).length()+"d", id);
-            System.out.println(str);
-            ruleStr = ruleStr.replace("{"+m.group(1)+"}",str);
+    public String convertToCustomId (String rule,int id){
+        if (StringUtils.isBlank(rule)){
+            return String.valueOf(id);
         }
-        System.out.println(ruleStr);
+        Pattern p = Pattern.compile("\\{(0{1,10})\\}");
+        Matcher m = p.matcher(rule);
+        while (m.find()) {
+            String str = String.format("%0"+m.group(1).length()+"d", id);
+            rule = rule.replace("{"+m.group(1)+"}",str);
+        }
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH)+1;
-        int date = calendar.get(Calendar.DATE);
-        ruleStr = ruleStr.replaceAll("\\{YYYY\\}",String.valueOf(year));
-        ruleStr = ruleStr.replaceAll("\\{MM\\}",String.valueOf(month));
-        ruleStr = ruleStr.replaceAll("\\{DD\\}",String.valueOf(date));
-        System.out.println(ruleStr);
-        return "";
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        rule = rule.replaceAll("\\{YYYY\\}",String.valueOf(year));
+        rule = rule.replaceAll("\\{MM\\}",String.valueOf(month));
+        rule = rule.replaceAll("\\{DD\\}",String.valueOf(date));
+        return rule;
     }
 
     @Test
     public void f9(){
 
-        String ruleStr = "SL{0000000}-&{YYYY}{MM}{DD}";
+        String ruleStr = "SL{0}SL{0}{YYYY}{MM}{DD}";
+        System.out.println(validateRule(ruleStr));
         if(validateRule(ruleStr)){
             System.out.println(convertToCustomId(ruleStr,1234));
         }
