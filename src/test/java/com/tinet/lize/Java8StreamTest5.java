@@ -3,6 +3,7 @@ package com.tinet.lize;
 import net.minidev.json.JSONUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.springframework.beans.BeanUtils;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -21,6 +22,11 @@ public class Java8StreamTest5 {
     @Test
     public void test1(){
         List<String> strings = Arrays.asList("a", "b", "c", "d");
+
+        for (int i = 0; i <= strings.size()-1; i++) {
+            System.out.println(strings.get(i));
+        }
+
         for (String s : strings){
             System.out.println(s);
         }
@@ -29,6 +35,10 @@ public class Java8StreamTest5 {
 
         Consumer<String> consumer = Java8StreamTest5::printValur;
         strings.forEach(s -> consumer.accept(s));
+
+        strings.forEach(System.out::println);
+
+        strings.forEach(s -> System.out.println("print value:" + s));
     }
 
     public static void printValur(String s){
@@ -54,5 +64,49 @@ public class Java8StreamTest5 {
         random.ints().limit(5).forEach(System.out::println);
         long count = random.ints().limit(5).count();
         System.out.println(count);
+    }
+
+    @Test
+    public void test3(){
+        Student s1 = new Student(21,"lize1");
+        Student s2 = new Student(21,"lize2");
+        Student s3 = new Student(22,"lize3");
+        Student s4 = new Student(22,"lize4");
+
+        List<Student> list = new ArrayList<>();
+        list.add(s1);
+        list.add(s2);
+        list.add(s3);
+        list.add(s4);
+
+        List<StudentCopy> collect = list.stream().map(s -> {
+            StudentCopy sc = new StudentCopy();
+            BeanUtils.copyProperties(s,sc);
+            return sc;
+        }).collect(Collectors.toList());
+        System.out.println(collect);
+    }
+
+    @Test
+    public void test4(){
+
+        Student s1 = new Student(21,"lize1");
+        Student s2 = new Student(22,"lize2");
+        Student s3 = new Student(23,"lize3");
+        Student s4 = new Student(24,"lize4");
+
+        List<Student> list = new ArrayList<>();
+        list.add(s1);
+        list.add(s2);
+        list.add(s3);
+        list.add(s4);
+
+        Integer[] integers = list.stream().map(Student::getAge).distinct().toArray(Integer[]::new);
+        System.out.println(Arrays.toString(integers));
+
+        Map<Integer, Student> collect = list.stream().collect(Collectors.toMap(c -> c.getAge(), c -> c));
+        System.out.println(collect);
+
+
     }
 }
