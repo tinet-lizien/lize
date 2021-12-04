@@ -5,3 +5,18 @@ thread-pool:
   psd:
     core-size: 2
     max-size: 4
+
+  # 数据库连接池配置
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.197.130:5432/postgres
+    username: postgres
+    password: root1234
+    initial-size: 1
+    max-active: 1
+    min-idle: 1
+
+# MyBatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+ # config-location: classpath:mybatis-config.xml
