@@ -1,8 +1,7 @@
 package com.tinet.lize.configuration;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +16,8 @@ import java.util.concurrent.ThreadFactory;
  * @date 2019/08/13
  */
 @Configuration
+@Slf4j
 public class ThreadPoolConfiguration {
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Value("${thread-pool.psd.core-size:5}")
     private Integer psdCoreSize;
@@ -41,14 +39,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("phone-status-detection-thread-pool-%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动 phone_status_detection 线程池");
+        log.info("启动 phone_status_detection 线程池");
 
         return executor;
     }
@@ -65,14 +63,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("agenda-remind-thread-pool-%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动agendaRemindThreadPool线程池");
+        log.info("启动agendaRemindThreadPool线程池");
 
         return executor;
     }
@@ -94,14 +92,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("ticket-event-thread-pool-%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动ticket-event线程池");
+        log.info("启动ticket-event线程池");
 
         return executor;
     }
@@ -125,14 +123,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("task-import-%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动taskPropertyImportThreadPool");
+        log.info("启动taskPropertyImportThreadPool");
 
         return executor;
     }
@@ -156,14 +154,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("customer-import-redis%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动customerImportToRedisThreadPool");
+        log.info("启动customerImportToRedisThreadPool");
 
         return executor;
     }
@@ -187,14 +185,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("customer-import-db%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动customerImportToDbThreadPool");
+        log.info("启动customerImportToDbThreadPool");
 
         return executor;
     }
@@ -218,14 +216,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("autoTaskProperty-import-redis%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动autoTaskPropertyImportToRedisThreadPool");
+        log.info("启动autoTaskPropertyImportToRedisThreadPool");
 
         return executor;
     }
@@ -249,14 +247,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("autoTaskProperty-import-db%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("启动autoTaskPropertyImportToDbThreadPool");
+        log.info("启动autoTaskPropertyImportToDbThreadPool");
 
         return executor;
     }
@@ -279,14 +277,14 @@ public class ThreadPoolConfiguration {
         ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("autoTask-worker-%d")
                 .setUncaughtExceptionHandler((thread, exception) ->
-                        logger.error(thread.toString(), exception)
+                        log.error(thread.toString(), exception)
                 ).build();
 
         executor.setThreadFactory(threadFactory);
 
         executor.initialize();
 
-        logger.info("正在启动autoTaskWorkerExecutor...");
+        log.info("正在启动autoTaskWorkerExecutor...");
 
         return executor;
     }

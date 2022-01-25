@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
-    <association property="dept" column="dept_id" fetchType="lazy" select="com.tinet.lize.mapper.DeptMapper.selectByPrimaryKey" ></association>
+    <association property="dept" column="dept_id" fetchType="eager" select="com.tinet.lize.mapper.DeptMapper.selectByPrimaryKey" ></association>
   </resultMap>
   <sql id="Base_Column_List">
     id, name, age, dept_id

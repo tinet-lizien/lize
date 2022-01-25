@@ -15,6 +15,19 @@ spring:
     initial-size: 1
     max-active: 1
     min-idle: 1
+    #quartz
+    quartz:
+      initial-size: 1
+      max-active: 1
+      min-idle: 1
+      password: root1234
+      url: jdbc:postgresql://192.168.197.130:5432/lize_quartz
+      username: postgres
+
+  #cron
+quartz:
+  analysis:
+    cronExpression: 0 */1 * * * ?
 
 # MyBatis 配置
 mybatis:
