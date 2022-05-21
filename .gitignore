@@ -1,0 +1,27 @@
+.settings
+.project
+.classpath
+/target/
+*/.settings
+*/.project
+*/.classpath
+*/.gitignore
+*/target/
+.tern-project
+*/.tern-project
+.idea/
+*.iml
+*.versionsBackup
+*.iml
+node_modules
+clink2-agent/**/resources/static
+clink2-console/**/resources/static
+clink2-data-vision/**/resources/static
+*.diff
+# IDE - VSCode
+.vscode/*
+project.config.json
+**/rebel.xml
+**/.rebel.xml.bak
+# System Files
+.DS_Store
