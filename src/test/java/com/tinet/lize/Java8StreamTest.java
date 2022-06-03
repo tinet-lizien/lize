@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
  * @date 2021年05月31日 10:20
  */
 public class Java8StreamTest {
-
     @Test
     public void f1(){
         List<String> list = Arrays.asList("jack", "tom", "aihua");
